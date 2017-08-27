@@ -1,0 +1,24 @@
+{
+  "name": "scel",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:wenerme/scel.git",
+  "author": "wener <wenermail@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --reporter spec --compilers ts:ts-node/register 'src/**/*.spec.ts'"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^8.0.25",
+    "@types/text-encoding": "^0.0.32",
+    "chai": "^4.1.1",
+    "mocha": "^3.5.0",
+    "text-encoding": "^0.6.4",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
+  }
+}
