@@ -5,11 +5,9 @@ import {TextDecoder, TextEncoder} from 'text-encoding';
 if (typeof window === 'undefined') {
     require('text-encoding');
 }
-//
 export interface ArrayType<T extends ArrayBufferView> extends Function {
     new (...args: any[]): T;
 }
-// export declare function isArrayType(v: any): v is ArrayType<any>;
 
 export function toType<T extends ArrayBufferView>(buf: ArrayBufferView, type: ArrayType<T>): T {
     if (buf.constructor === type) {
@@ -52,7 +50,6 @@ export function fromString(s: string, encoding = 'utf8'): Uint8Array {
 export function toString(ua: Uint8Array, encoding = 'utf8'): string {
     return new TextDecoder(encoding).decode(ua);
 }
-
 
 export function forRead(buf: ArrayBufferView | DataView): DataViewReader {
 
@@ -146,87 +143,6 @@ export interface DataViewReader {
 
     hasRemaining(): boolean;
 }
-//
-// export class DataViewReader {
-//
-//     view: DataView;
-//     position: number = 0;
-//     littleEndian: boolean;
-//
-//     get buffer(): ArrayBuffer {
-//         return this.view.buffer
-//     }
-//
-//     get byteLength(): number {
-//         return this.view.byteLength;
-//     }
-//
-//     get byteOffset(): number {
-//         return this.view.byteOffset;
-//     }
-//
-//     constructor(view: DataView) {
-//         this.view = view;
-//     }
-//
-//     hasRemaining(): boolean {
-//         return this.position < this.byteLength
-//     }
-//
-//     getFloat32(byteOffset?: number, littleEndian?: boolean | undefined): number {
-//         return this.delegate(arguments);
-//     }
-//
-//     getFloat64(byteOffset: number, littleEndian?: boolean | undefined): number {
-//         return this.delegate(arguments);
-//     }
-//
-//     getInt8(byteOffset?: number): number {
-//         return this.view.getInt8(byteOffset || this.position++);
-//     }
-//
-//     getInt16(byteOffset?: number, littleEndian?: boolean | undefined): number {
-//         return this.delegate(arguments);
-//     }
-//
-//     getInt32(byteOffset?: number, littleEndian?: boolean | undefined): number {
-//         return this.delegate(arguments);
-//     }
-//
-//     getUint8(byteOffset?: number): number {
-//         return this.view.getUint8(byteOffset || this.position++);
-//     }
-//
-//     getUint16(byteOffset?: number, littleEndian?: boolean | undefined): number {
-//         return this.delegate(arguments);
-//     }
-//
-//     private extracted(n: number, byteOffset?: number, littleEndian?: boolean | any): [number, boolean] {
-//         if (byteOffset == null) {
-//             byteOffset = this.position;
-//             this.position += n;
-//         }
-//         if (littleEndian == null) {
-//             littleEndian = this.littleEndian;
-//         }
-//         return [byteOffset, littleEndian];
-//     }
-//
-//     private delegate(args: IArguments): number {
-//         let match = arguments.callee.name.match(/\d+$/);
-//         if (match == null) {
-//             throw new Error('Invalid delegate');
-//         }
-//         let n = +match[0] / 8;
-//         return ((this.view as any)[arguments.callee.name] as () => number).apply(this.view, this.extracted(n, args[0], args[1]));
-//     }
-//
-//
-//     getUint32(byteOffset?: number, littleEndian?: boolean | undefined): number {
-//         return this.delegate(arguments);
-//         // return this.view.getUint32(...this.extracted(4, byteOffset, littleEndian));
-//     }
-// }
 
 /**
  // TS2556: Expected 1-2 arguments, but got a minimum of 0.
