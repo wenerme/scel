@@ -13,9 +13,12 @@ var data *sceldata.ScelData
 
 func open(fn string) {
 	switch filepath.Ext(fn) {
-	case "pb":
+	case ".pb":
 		openPb(fn)
+
 	default:
+		fallthrough
+	case ".scel":
 		openScel(fn)
 	}
 }
@@ -24,7 +27,7 @@ func write(fn string) {
 	switch filepath.Ext(fn) {
 	default:
 		fallthrough
-	case "pb":
+	case ".pb":
 		writePb(fn)
 	}
 }
