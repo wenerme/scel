@@ -138,7 +138,7 @@ func (self *Parser) ReadWord() {
 }
 
 func (self *Parser) ReadData() (*sceldata.ScelData, error) {
-	if self.IsMagicMatch() {
+	if !self.IsMagicMatch() {
 		return nil, errors.New("Invalid data")
 	}
 	self.ReadInfo()
