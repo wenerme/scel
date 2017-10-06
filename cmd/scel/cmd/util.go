@@ -1,15 +1,15 @@
 package cmd
 
 import (
-	"github.com/wenerme/scel/genproto/v1/sceldata"
-	"os"
-	"io/ioutil"
-	"github.com/golang/protobuf/proto"
-	"github.com/wenerme/scel/parser"
-	"path/filepath"
 	"bytes"
 	"fmt"
+	"github.com/golang/protobuf/proto"
+	"github.com/wenerme/scel/genproto/v1/sceldata"
+	"github.com/wenerme/scel/parser"
 	"github.com/wenerme/scel/util"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 )
 
 var data *sceldata.ScelData

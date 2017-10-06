@@ -1,8 +1,8 @@
 package sceldb
 
 import (
-	"time"
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type Cache struct {

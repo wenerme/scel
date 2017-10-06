@@ -1,9 +1,9 @@
 package scelutil
 
 import (
-	"strings"
 	"crypto/sha256"
 	"encoding/base64"
+	"strings"
 )
 
 const SHA256_COMMON_PY = "YB4qyXsMZRJ_6krGfnJ1DEosdYYocB5BJt02YWU2F-o"
