@@ -7,14 +7,12 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/wenerme/scel/parser"
 	"path/filepath"
-	"crypto/sha256"
-	"encoding/base64"
 	"bytes"
+	"fmt"
+	"github.com/wenerme/scel/util"
 )
 
 var data *sceldata.ScelData
-
-const SHA256_COMMON_PY = "YB4qyXsMZRJ_6krGfnJ1DEosdYYocB5BJt02YWU2F-o"
 
 func open(fn string) {
 	switch filepath.Ext(fn) {
@@ -88,13 +86,12 @@ func doOptimizeExt() {
 }
 
 func doExcludeCommonPy() {
-	hash := sha256.New()
-	for _, v := range data.Pinyins {
-		hash.Write([]byte(v))
+	if data.Pinyins == nil {
+		fmt.Println("No pinyin table")
+		return
 	}
-	sum := hash.Sum(nil)
 
-	if SHA256_COMMON_PY == base64.RawURLEncoding.EncodeToString(sum) {
+	if scelutil.IsPinyinTableCommon(data.Pinyins) {
 		data.Pinyins = nil
 	}
 }

@@ -16,13 +16,16 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/wenerme/scel/util"
 )
 
 var excludeExt = false
 var optimizeExt = false
 var excludeCommonPy = false
+var includeCommonPy = false
 var optimize []string
 var exclude []string
+var include []string
 
 // convCmd represents the conv command
 var convCmd = &cobra.Command{
@@ -56,6 +59,14 @@ Exclude:
 				panic("Unknown exclude option: " + v)
 			}
 		}
+		for _, v := range include {
+			switch v {
+			case "P":
+				includeCommonPy = true
+			default:
+				panic("Unknown exclude option: " + v)
+			}
+		}
 
 		open(args[0])
 
@@ -69,6 +80,10 @@ Exclude:
 			doExcludeCommonPy()
 		}
 
+		if includeCommonPy {
+			data.Pinyins = scelutil.CreateCommonPinyinTable()
+		}
+
 		write(args[1])
 	},
 }
@@ -78,4 +93,5 @@ func init() {
 
 	convCmd.Flags().StringArrayVarP(&optimize, "optimize", "o", nil, "Optimize")
 	convCmd.Flags().StringArrayVarP(&exclude, "exclude", "e", nil, "Exclude")
+	convCmd.Flags().StringArrayVarP(&include, "include", "i", nil, "Exclude")
 }
