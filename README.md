@@ -12,7 +12,22 @@ Sougou scel dict - 搜狗 scel 词库工具
 * Useful `scel` command
     * `info` - Info about dict
     * `conv` - Conversion between format
+        * Optional remove ext data
+            * 10 b/word
+        * Optional optimized ext data 
+            * Trime zero
+            * 10 b/word -> 2-4 b/word
+        * Optional remove common pinyin table
 * Provide typescript scel reader
+
+
+Opt.      | 全国省市区县地名.scel | 76K
+----------|---------------------|----
+N/A       | out.pb              | 73K 
+-oe       | out.pb              | 53K 
+-ee       | out.pb              | 43K
+-eP       | out.pb              | 71K
+-oe -eP   | out.pb              | 50K
 
 # 搜狗词库
 
@@ -23,6 +38,12 @@ Sougou scel dict - 搜狗 scel 词库工具
 * 非常有用的 `scel` 命令行工具
     * `info` - 词库信息
     * `conv` - 格式转换
+        * 可移除扩展数据
+            * 每个词有 10 byte 的扩展数据
+        * 可优化扩展数据
+            * 移除尾 0
+            * 10 b/word -> 2-4 b/word
+        * 可移除常用的拼音表
 * 提供 typescript 的 scel 解析器
 
 ## CLI

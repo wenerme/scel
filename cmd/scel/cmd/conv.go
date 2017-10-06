@@ -19,6 +19,10 @@ import (
 )
 
 var excludeExt = false
+var optimizeExt = false
+var excludeCommonPy = false
+var optimize []string
+var exclude []string
 
 // convCmd represents the conv command
 var convCmd = &cobra.Command{
@@ -26,12 +30,43 @@ var convCmd = &cobra.Command{
 	Args:    cobra.MinimumNArgs(2),
 	Aliases: []string{"c"},
 	Short:   "Conversion between different format",
-	Long:    `Convert scel to pb`,
+	Long: `Convert scel to pb.
+
+Optimize:
+	e - ext data
+Exclude:
+	e - ext data
+	P - common pinyin table`,
 	Run: func(cmd *cobra.Command, args []string) {
+		for _, v := range optimize {
+			switch v {
+			case "e":
+				optimizeExt = true
+			default:
+				panic("Unknown optimize option: " + v)
+			}
+		}
+		for _, v := range exclude {
+			switch v {
+			case "e":
+				excludeExt = true
+			case "P":
+				excludeCommonPy = true
+			default:
+				panic("Unknown exclude option: " + v)
+			}
+		}
+
 		open(args[0])
 
 		if excludeExt {
 			doExcludeExt()
+		} else if optimizeExt {
+			doOptimizeExt()
+		}
+
+		if excludeCommonPy {
+			doExcludeCommonPy()
 		}
 
 		write(args[1])
@@ -41,14 +76,6 @@ var convCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(convCmd)
 
-	convCmd.Flags().BoolVarP(&excludeExt, "exclude-ext", "E", false, "Exclude ext data")
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// convCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// convCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	convCmd.Flags().StringArrayVarP(&optimize, "optimize", "o", nil, "Optimize")
+	convCmd.Flags().StringArrayVarP(&exclude, "exclude", "e", nil, "Exclude")
 }

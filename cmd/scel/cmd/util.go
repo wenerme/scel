@@ -7,9 +7,14 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/wenerme/scel/parser"
 	"path/filepath"
+	"crypto/sha256"
+	"encoding/base64"
+	"bytes"
 )
 
 var data *sceldata.ScelData
+
+const SHA256_COMMON_PY = "YB4qyXsMZRJ_6krGfnJ1DEosdYYocB5BJt02YWU2F-o"
 
 func open(fn string) {
 	switch filepath.Ext(fn) {
@@ -71,5 +76,25 @@ func writePb(fn string) {
 func doExcludeExt() {
 	for _, v := range data.Words {
 		v.Exts = nil
+	}
+}
+
+func doOptimizeExt() {
+	for _, w := range data.Words {
+		for k, v := range w.Exts {
+			w.Exts[k] = bytes.TrimRight(v, "\x00")
+		}
+	}
+}
+
+func doExcludeCommonPy() {
+	hash := sha256.New()
+	for _, v := range data.Pinyins {
+		hash.Write([]byte(v))
+	}
+	sum := hash.Sum(nil)
+
+	if SHA256_COMMON_PY == base64.RawURLEncoding.EncodeToString(sum) {
+		data.Pinyins = nil
 	}
 }
