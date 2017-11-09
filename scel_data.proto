@@ -9,14 +9,14 @@ option objc_class_prefix = "WAPI";
 
 message ScelData {
     Info info = 1;
-    repeated string pinyins = 2;
-    repeated Word words = 3;
+    repeated string pinyins = 2; // pinyin table
+    repeated Word words = 3; // words grouped by pinyin
 }
 
 message Word {
-    repeated int32 pinyins = 1;
-    repeated string words = 2;
-    repeated bytes exts = 3;
+    repeated int32 pinyins = 1; // pinyin index
+    repeated string words = 2; // words with same pinyin
+    repeated bytes exts = 3; // extension data, unknown
 }
 
 message Info {
