@@ -16,7 +16,9 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
+	"github.com/wenerme/scel/util"
 )
 
 // infoCmd represents the info command
@@ -27,9 +29,12 @@ var infoCmd = &cobra.Command{
 	Short:   "Show info about scel dict",
 	Long:    `Show name, type, example, desc, counts.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		open(args[0])
-
+		var err error
 		for _, v := range args {
+			data, err = scelutil.Read(v)
+			if err != nil {
+				logrus.WithError(err).Fatal("failed to open file")
+			}
 			fmt.Printf(`file: %v
 name: %v
 type: %v

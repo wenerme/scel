@@ -28,3 +28,20 @@ type Dict struct {
 	DownloadUrl    string    `gorm:"download_url"`
 	CheckAt        time.Time `gorm:"not null;index"` // 检测时间
 }
+
+type Scel struct {
+	gorm.Model
+
+	Name        string
+	Type        string
+	Description string
+	Example     string
+}
+
+type Word struct {
+	gorm.Model
+	Scel   *Scel
+	ScelID uint
+	Pinyin string
+	Word   string
+}

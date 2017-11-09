@@ -15,6 +15,8 @@
 package cmd
 
 import (
+	"github.com/Sirupsen/logrus"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/spf13/cobra"
 	"github.com/wenerme/scel/util"
 )
@@ -23,6 +25,7 @@ var excludeExt = false
 var optimizeExt = false
 var excludeCommonPy = false
 var includeCommonPy = false
+var outFormat = ""
 var optimize []string
 var exclude []string
 var include []string
@@ -67,8 +70,10 @@ Exclude:
 				panic("Unknown exclude option: " + v)
 			}
 		}
-
-		open(args[0])
+		var err error
+		if data, err = scelutil.Read(args[0]); err != nil {
+			logrus.WithError(err).Fatal("failed to open file")
+		}
 
 		if excludeExt {
 			doExcludeExt()
@@ -84,7 +89,9 @@ Exclude:
 			data.Pinyins = scelutil.CreateCommonPinyinTable()
 		}
 
-		write(args[1])
+		if err = scelutil.WriteWithFormat(data, args[1], outFormat); err != nil {
+			logrus.WithError(err).Fatal("failed to write file")
+		}
 	},
 }
 
@@ -94,4 +101,5 @@ func init() {
 	convCmd.Flags().StringArrayVarP(&optimize, "optimize", "o", nil, "Optimize")
 	convCmd.Flags().StringArrayVarP(&exclude, "exclude", "e", nil, "Exclude")
 	convCmd.Flags().StringArrayVarP(&include, "include", "i", nil, "Exclude")
+	convCmd.Flags().StringVarP(&outFormat, "out-format", "f", "", "Out file format: csv, pb, sqlite")
 }
