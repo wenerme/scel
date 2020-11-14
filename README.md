@@ -1,3 +1,5 @@
+> Moved to https://github.com/wenerme/tools
+
 [English](#scel) | [中文](#搜狗词库)
 --------|-----
 
